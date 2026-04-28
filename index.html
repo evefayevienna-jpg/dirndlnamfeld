@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirndlnamfeld – Gemüse von Hand</title>
+  <meta name="description" content="Frisch. Knackig. Hand geerntet. Aus der Region. Bio-Marktgärtnerei von Sarah Schmolmüller in Kirchberg am Wagram, Niederösterreich.">
+
+  <style>
+    :root {
+      --black:    #0D0D0D;
+      --sage:     #C5962B;
+      --sage-lt:  #D4AD48;
+      --mint:     #D5ECE8;
+      --cream:    #EAE4D6;
+      --cream-dk: #DED8C6;
+      --text:     #1a1a1a;
+      --muted:    #6a6a6a;
+      --white:    #ffffff;
+      --mono:     'Andale Mono', 'Courier New', Courier, monospace;
+      --r-sm:     4px;
+      --r-md:     14px;
+      --r-lg:     24px;
+      --r-pill:   999px;
+      --sh-sm:    0 2px 16px rgba(0,0,0,.08);
+      --sh-md:    0 8px 40px rgba(0,0,0,.13);
+      --ease:     0.38s cubic-bezier(.4,0,.2,1);
+      --wrap:     1280px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: auto; overflow-x: hidden; }
+    body { font-family: var(--mono); background: var(--cream); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    .wrap { width: min(var(--wrap), 100%); margin: 0 auto; padding: 0 clamp(1.25rem,5vw,3rem); }
+
+    /* typography helpers */
+    .eyebrow {
+      display: block;
+      font-size: .7rem; font-weight: 700; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--sage); margin-bottom: .9rem;
+    }
+    .h-display {
+      font-family: var(--mono);
+      font-size: clamp(2rem,5vw,3.5rem);
+      font-weight: 700; line-height: 1.12; color: var(--black);
+    }
+    .h-display em { color: var(--sage); }
+    .h-section {
+      font-family: var(--mono);
+      font-size: clamp(1.5rem,3vw,2.4rem);
+      font-weight: 700; line-height: 1.2; color: var(--black);
+    }
+    .h-section em { color: var(--sage); }
+    .lead { font-size: 1.05rem; color: var(--muted); max-width: 58ch; line-height: 1.85; }
+    .terra-rule { display: block; width: 3rem; height: 3px; background: var(--sage); border-radius: 2px; margin-bottom: 1.5rem; }
+
+    /* buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .82rem 1.9rem; border-radius: var(--r-pill);
+      font-size: .875rem; font-weight: 400; letter-spacing: .04em;
+      transition: var(--ease); white-space: nowrap; cursor: pointer;
+    }
+    .btn-p  { background: var(--black); color: var(--white); }
+    .btn-p:hover  { background: #2a2a2a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .btn-o  { border: 1.5px solid var(--black); color: var(--black); }
+    .btn-o:hover  { background: var(--black); color: var(--cream); transform: translateY(-2px); }
+    .btn-oc { border: 1.5px solid rgba(234,228,214,.55); color: var(--cream); }
+    .btn-oc:hover { background: rgba(234,228,214,.12); transform: translateY(-2px); }
+
+    /* section spacing */
+    section { padding: clamp(4rem,8vw,7rem) 0; overflow: hidden; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      background: #0D0D0D;
+      padding: 1.2rem 0;
+      transition: padding var(--ease), box-shadow var(--ease);
+    }
+    #nav.scrolled { padding: .7rem 0; box-shadow: 0 2px 20px rgba(0,0,0,.35); }
+    .nav-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 36px; width: auto; display: block; filter: none; }
+    .footer-logo-img { height: 32px; width: auto; display: block; filter: none; }
+    .nav-links { display: flex; align-items: center; gap: .15rem; }
+    .nav-links a {
+      font-size: .75rem; font-weight: 400; letter-spacing: .07em;
+      text-transform: uppercase; color: rgba(255,255,255,.72);
+      padding: .4rem .6rem; border-radius: var(--r-sm); transition: var(--ease);
+    }
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,.1); }
+    .nav-socials { display: flex; gap: .7rem; }
+    .nav-socials a { display: flex; color: rgba(255,255,255,.6); transition: var(--ease); }
+    .nav-socials a:hover { color: #fff; }
+    .nav-socials svg { width: 18px; height: 18px; }
+    .burger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .burger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: var(--ease); }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-menu {
+      display: none; position: fixed; inset: 0; background: #0D0D0D;
+      z-index: 800; flex-direction: column; align-items: center; justify-content: center;
+      gap: .5rem; opacity: 0; pointer-events: none; transition: opacity var(--ease);
+    }
+    .mob-menu.open { opacity: 1; pointer-events: all; }
+    .mob-menu a {
+      font-size: 1.9rem; font-weight: 700;
+      color: rgba(255,255,255,.85); padding: .4rem 1rem; transition: var(--ease);
+    }
+    .mob-menu a:hover { color: var(--sage); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100svh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: #111;
+    }
+    .hero-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 1; pointer-events: none;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.48) 0%, rgba(0,0,0,.76) 100%);
+    }
+    .hero-body {
+      position: relative; z-index: 2; padding: clamp(5rem,10vw,8rem) 0 4rem;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .hero-logo-big {
+      width: clamp(90px,14vw,160px); height: auto; display: block;
+      margin: 0 auto 2.8rem;
+    }
+    .hero-tag {
+      font-size: .72rem; font-weight: 700; letter-spacing: .22em;
+      text-transform: uppercase; color: rgba(255,255,255,.62); margin-bottom: 1.4rem;
+    }
+    .hero-sub {
+      font-size: clamp(1rem,2vw,1.15rem); color: rgba(255,255,255,.72);
+      max-width: 46ch; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .hero-badge {
+      position: absolute; bottom: clamp(2rem,6vw,5rem); right: clamp(2rem,8vw,8rem);
+      width: clamp(90px,13vw,148px); height: clamp(90px,13vw,148px);
+      background: var(--cream); border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 1rem; color: var(--black); z-index: 2;
+    }
+    .hero-badge strong { font-family: var(--mono); font-size: clamp(1.4rem,2.5vw,2rem); line-height: 1; }
+    .hero-badge span { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; opacity: .75; margin-top: .25rem; display: block; }
+
+    /* ── CARD GRID HELPERS ── */
+    .card-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.75rem; }
+    .card-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+    .card-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; }
+
+    /* ── IMAGE + TEXT SPLIT ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,5rem); align-items: center; }
+    .split-img { border-radius: var(--r-lg); overflow: hidden; }
+    .split-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── ES GEHT UM DIE ERDE ── */
+    #erde { background: var(--cream); border-top: none; }
+    #erde .erde-pillar-icon { background: rgba(197,150,43,.18); color: var(--sage); }
+    .erde-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .erde-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; }
+    .erde-img img { width: 100%; height: 100%; object-fit: cover; }
+    .erde-text .h-display { margin-bottom: 1.4rem; }
+    .erde-text .intro { color: var(--muted); line-height: 1.85; margin-bottom: 2rem; }
+    .erde-pillars { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+    .erde-pillar { display: flex; gap: 1rem; align-items: flex-start; }
+    .erde-pillar-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: var(--mint); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center; color: var(--black);
+    }
+    .erde-pillar-icon svg { width: 20px; height: 20px; }
+    .erde-pillar-text h4 { font-family: var(--mono); font-size: 1.05rem; color: var(--black); margin-bottom: .3rem; }
+    .erde-pillar-text p { font-size: .88rem; color: var(--muted); line-height: 1.72; }
+
+    /* ── DIRNDLN & MEHR ── */
+    #dirndln { background: var(--cream); border-top: 1.5px solid var(--cream-dk); }
+    .dirndln-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .dirndln-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; position: relative; }
+    .dirndln-img img { width: 100%; height: 100%; object-fit: cover; }
+    .dirndln-text .h-display { margin-bottom: 1.5rem; }
+    .dirndln-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1rem; }
+    .dirndln-text blockquote {
+      border-left: 3px solid var(--sage); padding: .75rem 1.25rem;
+      font-family: var(--mono); font-style: italic;
+      font-size: 1.1rem; color: var(--black); margin: 1.5rem 0; background: var(--mint); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+
+    /* ── KUNDEN ── */
+    #kunden { background: var(--white); border-top: 1.5px solid var(--cream-dk); }
+    .kunden-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .kunden-content .h-display { margin-bottom: 1rem; }
+    .kunden-photo { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; }
+    .kunden-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .pills { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+    .pill {
+      padding: .6rem 1.35rem; border-radius: var(--r-pill);
+      font-size: .88rem; font-weight: 400;
+      background: var(--cream); color: var(--black);
+      border: 1.5px solid var(--mint); transition: var(--ease);
+    }
+    .pill:hover { background: var(--black); color: var(--cream); border-color: var(--black); }
+    .pill a { color: inherit; display: block; }
+
+    /* ── PARTNER ── */
+    #partner { background: var(--cream); border-top: 1.5px solid var(--cream-dk); }
+    .partner-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem; }
+    .partner-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; }
+    .partner-img img { width: 100%; height: 100%; object-fit: cover; }
+    .partner-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 3rem; }
+    .pcard {
+      background: var(--white); border-radius: var(--r-md); padding: 1.75rem 1.5rem;
+      border: 1.5px solid transparent; transition: var(--ease);
+    }
+    .pcard:hover { border-color: var(--black); transform: translateY(-4px); box-shadow: var(--sh-sm); }
+    .pcard h4 { font-family: var(--mono); font-size: 1.05rem; color: var(--black); margin-bottom: .4rem; }
+    .pcard p { font-size: .82rem; color: var(--muted); margin-bottom: .75rem; line-height: 1.65; }
+    .pcard a { font-size: .78rem; color: var(--sage); font-weight: 400; }
+    .pcard a:hover { text-decoration: underline; }
+    .net-label { font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+    .net-pills { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .net-pill {
+      padding: .5rem 1.1rem; border-radius: var(--r-pill);
+      font-size: .82rem; background: var(--mint); color: var(--black); font-weight: 400; transition: var(--ease);
+    }
+    .net-pill a { color: inherit; display: block; }
+    .net-pill:hover { background: var(--black); color: var(--cream); }
+
+    /* ── HEIMVORTEIL ── */
+    #heimvorteil { background: var(--mint); color: var(--black); position: relative; overflow: hidden; }
+    #heimvorteil::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 360px; height: 360px; border-radius: 50%; background: rgba(0,0,0,.04); pointer-events: none;
+    }
+    .heim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .heim-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; }
+    .heim-img img { width: 100%; height: 100%; object-fit: cover; }
+    .heim-text .h-display { margin-bottom: 1.2rem; }
+    .heim-text .h-display em { color: var(--sage); }
+    .heim-text p { line-height: 1.85; margin-bottom: 1rem; }
+    .korb-box {
+      display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
+      background: rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.12);
+      border-radius: var(--r-md); padding: 1rem 1.5rem; margin: 1.5rem 0 2rem;
+    }
+    .korb-price { font-family: var(--mono); font-size: 2.4rem; font-weight: 700; line-height: 1; white-space: nowrap; flex-shrink: 0; }
+    .korb-info { font-size: .85rem; opacity: .7; line-height: 1.6; }
+    .korb-badge {
+      background: var(--sage); color: var(--white); padding: .3rem .8rem;
+      border-radius: var(--r-pill); font-size: .7rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+    }
+    .pickup-list { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+    .pickup-item {
+      display: flex; align-items: flex-start; gap: .85rem;
+      background: rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.1);
+      border-radius: var(--r-md); padding: 1rem 1.25rem; transition: var(--ease);
+    }
+    .pickup-item:hover { background: rgba(0,0,0,.09); }
+    .pickup-icon { display: flex; align-items: center; flex-shrink: 0; margin-top: .15rem; color: var(--sage); }
+    .pickup-icon svg { width: 18px; height: 18px; }
+    .pickup-item h5 { font-weight: 700; font-size: .92rem; margin-bottom: .2rem; }
+    .pickup-item p { font-size: .82rem; opacity: .65; line-height: 1.55; }
+    .pickup-item a { color: var(--black); text-decoration: underline; font-size: .8rem; opacity: .7; }
+    .heim-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── AM FELD ── */
+    #amfeld { background: var(--white); }
+    .amfeld-header { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+    .amfeld-header .h-display { margin-bottom: 1rem; }
+    .amfeld-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+    .amfeld-card {
+      background: var(--cream); border-radius: var(--r-md); padding: 2rem 1.75rem;
+      border-top: 3px solid var(--sage); transition: var(--ease);
+    }
+    .amfeld-card:hover { transform: translateY(-5px); box-shadow: var(--sh-md); }
+    .amfeld-card h3 { font-family: var(--mono); font-size: 1.2rem; color: var(--black); margin-bottom: .75rem; }
+    .amfeld-card p { font-size: .9rem; color: var(--muted); line-height: 1.8; }
+    .boden-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 4rem; }
+    .boden-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; }
+    .boden-img img { width: 100%; height: 100%; object-fit: cover; }
+    .boden-text h3 { font-family: var(--mono); font-size: 1.5rem; color: var(--black); margin-bottom: 1rem; }
+    .boden-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1rem; }
+    .damm-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 1.5rem; }
+    .damm-col { background: var(--mint); border-radius: var(--r-md); padding: 1.25rem 1rem; }
+    .damm-col h5 { font-family: var(--mono); font-size: .95rem; color: var(--black); margin-bottom: .4rem; }
+    .damm-col p { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── EVENTS ── */
+    #events { background: var(--cream); border-top: 1.5px solid var(--cream-dk); }
+    .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .events-text .h-display { margin-bottom: 1.25rem; }
+    .events-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1rem; }
+    .events-text blockquote {
+      border-left: 3px solid var(--sage); padding: .75rem 1.25rem;
+      font-family: var(--mono); font-style: italic; font-size: 1.05rem;
+      color: var(--black); margin: 1.5rem 0; background: var(--white); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+    .events-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .events-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; }
+    .events-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── FIRMENANGEBOTE ── */
+    #firma { background: var(--mint); color: var(--black); position: relative; overflow: hidden; }
+    #firma::after { content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(0,0,0,.04); pointer-events: none; }
+    .firma-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .firma-text .h-display { margin-bottom: 1.25rem; }
+    .firma-text p { line-height: 1.85; margin-bottom: 1rem; }
+    .firma-text blockquote {
+      border-left: 3px solid var(--sage); padding: .75rem 1.25rem;
+      font-style: italic; font-size: 1rem; opacity: .85; margin: 1.5rem 0;
+    }
+    .firma-meta { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 1.5rem 0; }
+    .firma-meta-item { display: flex; align-items: center; gap: .5rem; font-size: .84rem; opacity: .75; }
+    .firma-meta-item::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+    .firma-img { position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; }
+    .firma-img img { width: 100%; height: 100%; object-fit: cover; opacity: 1; }
+    .acts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; margin-top: 1.5rem; }
+    .act {
+      display: flex; align-items: flex-start; gap: .6rem;
+      background: rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.1);
+      border-radius: var(--r-sm); padding: .8rem 1rem; font-size: .84rem; transition: var(--ease);
+    }
+    .act:hover { background: rgba(0,0,0,.1); }
+    .act::before { content: '↳'; color: var(--sage); flex-shrink: 0; font-weight: 700; line-height: 1.4; }
+    .farm-note {
+      margin-top: 1.75rem; padding: 1.1rem 1.4rem;
+      background: rgba(0,0,0,.07); border-left: 3px solid var(--sage);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: .87rem; opacity: .9;
+    }
+
+    /* ── GALERIE ── */
+    #galerie { background: var(--mint); padding: 0; overflow: hidden; }
+    .galerie-hdr {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: clamp(3rem,6vw,5rem) clamp(1.25rem,5vw,3rem) 2.5rem;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .galerie-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+    .galerie-item { aspect-ratio: 1; overflow: hidden; cursor: pointer; }
+    .galerie-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .55s ease; }
+    .galerie-item:hover img { transform: scale(1.06); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.92); align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: var(--r-md); }
+    #lightbox-close {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.18); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; cursor: pointer; transition: var(--ease); border: none;
+    }
+    #lightbox-close:hover { background: rgba(255,255,255,.3); }
+    #lightbox-prev, #lightbox-next {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,.18); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--ease); border: none; z-index: 10000;
+    }
+    #lightbox-prev { left: 1.5rem; }
+    #lightbox-next { right: 1.5rem; }
+    #lightbox-prev:hover, #lightbox-next:hover { background: rgba(255,255,255,.3); }
+
+    /* ── MARKTGÄRTNEREI ── */
+    #mgk { background: var(--white); border-top: 1.5px solid var(--cream-dk); }
+    .mgk-header { max-width: 700px; margin-bottom: 3.5rem; }
+    .mgk-header .h-display { margin-bottom: 1rem; }
+    .mgk-body { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .mgk-text h3 { font-family: var(--mono); font-size: 1.35rem; color: var(--black); margin-bottom: .75rem; margin-top: 1.5rem; }
+    .mgk-text h3:first-child { margin-top: 0; }
+    .mgk-text p { color: var(--muted); line-height: 1.85; margin-bottom: .85rem; font-size: .95rem; }
+    .mgk-panel {
+      background: var(--black); border-radius: var(--r-lg); padding: 2.5rem;
+      color: var(--cream); position: relative; overflow: hidden;
+    }
+    .mgk-panel::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .mgk-img { border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/3; position: relative; z-index: 1; }
+    .mgk-img img { width: 100%; height: 100%; object-fit: cover; }
+    .mgk-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; position: relative; z-index: 1; margin-top: 2rem; }
+    .mgk-stat { text-align: center; background: rgba(234,228,214,.09); border: 1px solid rgba(234,228,214,.1); border-radius: var(--r-md); padding: 1.25rem; }
+    .mgk-stat strong { display: block; font-family: var(--mono); font-size: 2rem; font-weight: 700; }
+    .mgk-stat span { font-size: .72rem; opacity: .65; letter-spacing: .08em; text-transform: uppercase; margin-top: .3rem; display: block; }
+    .mgk-features { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0; }
+    .mgk-feat {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .4rem .9rem; background: var(--mint); color: var(--black);
+      border-radius: var(--r-pill); font-size: .78rem; font-weight: 400;
+    }
+    .mgk-feat::before { content: '✓'; color: var(--sage); font-weight: 700; }
+    .sdg-box {
+      background: var(--black); color: var(--white); border-radius: var(--r-md);
+      padding: 1.1rem 1.4rem; margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem;
+    }
+    .sdg-box strong { font-family: var(--mono); font-size: 1.6rem; flex-shrink: 0; }
+    .sdg-box p { font-size: .84rem; opacity: .92; margin: 0; }
+
+    /* ── BESTELLE HIER ── */
+    #bestellen { background: var(--cream); border-top: 1.5px solid var(--cream-dk); }
+    .bestellen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .bestell-card {
+      background: var(--white); border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: var(--sh-sm); transition: var(--ease);
+    }
+    .bestell-card:hover { box-shadow: var(--sh-md); transform: translateY(-4px); }
+    .bestell-card-img { height: 220px; overflow: hidden; }
+    .bestell-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .bestell-card:hover .bestell-card-img img { transform: scale(1.04); }
+    .bestell-card-body { padding: 2rem; }
+    .bestell-card-body h3 { font-family: var(--mono); font-size: 1.4rem; color: var(--black); margin-bottom: .5rem; }
+    .bestell-card-body h4 { font-family: var(--mono); font-size: 1.05rem; color: var(--sage); margin-bottom: .5rem; margin-top: 1.25rem; }
+    .bestell-card-body p { font-size: .9rem; color: var(--muted); line-height: 1.8; margin-bottom: .75rem; }
+    .bestell-card-body .contact-row { display: flex; flex-direction: column; gap: .5rem; margin: 1rem 0; }
+    .bestell-card-body .contact-row a {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .88rem; color: var(--black); font-weight: 400; transition: var(--ease);
+    }
+    .bestell-card-body .contact-row a:hover { color: var(--sage); }
+    .bestell-card-body .contact-row a svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── QUOTE HERO ── */
+    #quote {
+      background: #0D0D0D; color: var(--cream);
+      padding: clamp(5rem,10vw,8rem) 0; text-align: center;
+    }
+    .quote-inner { max-width: 860px; margin: 0 auto; }
+    .quote-inner .eyebrow { color: rgba(234,228,214,.55); }
+    .quote-inner blockquote {
+      font-family: var(--mono); font-style: italic;
+      font-size: clamp(1.4rem,3.5vw,2.2rem); line-height: 1.45;
+      color: var(--cream); margin: 1.5rem 0;
+    }
+    .quote-inner p { opacity: .7; font-size: .95rem; }
+
+    /* ── KONTAKT ── */
+    #kontakt { background: var(--cream); }
+    .kontakt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .kontakt-info .h-display { margin-bottom: 2rem; }
+    .kontakt-info p { color: var(--muted); line-height: 1.85; margin-bottom: 1.5rem; }
+    .clist { display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 2rem; }
+    .citem { display: flex; align-items: flex-start; gap: .9rem; }
+    .cicon {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--mint); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center; color: var(--black);
+    }
+    .cicon svg { width: 17px; height: 17px; }
+    .citem-text label { display: block; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .15rem; }
+    .citem-text a, .citem-text span { font-size: .92rem; color: var(--text); transition: var(--ease); }
+    .citem-text a:hover { color: var(--sage); }
+    .soc-row { display: flex; gap: .65rem; }
+    .soc-link {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .6rem 1.15rem; background: var(--black); color: var(--cream);
+      border-radius: var(--r-pill); font-size: .8rem; font-weight: 400; transition: var(--ease);
+    }
+    .soc-link:hover { background: var(--sage); transform: translateY(-2px); }
+    .soc-link svg { width: 15px; height: 15px; }
+
+    /* contact form */
+    .kontakt-form .h-section { margin-bottom: .6rem; }
+    .kontakt-form p { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; line-height: 1.7; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .form-field label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .form-field input, .form-field select, .form-field textarea {
+      padding: .8rem 1rem; border: 1.5px solid var(--cream-dk);
+      border-radius: var(--r-sm); font-family: var(--mono); font-size: .92rem;
+      background: var(--white); color: var(--text); transition: var(--ease);
+      width: 100%;
+    }
+    .form-field input:focus, .form-field textarea:focus {
+      outline: none; border-color: var(--black); box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+    }
+    .form-field textarea { resize: vertical; min-height: 130px; }
+
+    /* ── DSGVO ── */
+    #cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+      background: #0D0D0D; color: var(--cream);
+      padding: 1.25rem clamp(1.25rem,5vw,3rem);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 -4px 24px rgba(0,0,0,.35);
+    }
+    .cookie-text { font-size: .78rem; opacity: .8; line-height: 1.6; max-width: 780px; }
+    .cookie-text a { color: var(--sage); text-decoration: underline; }
+    .cookie-btns { display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; }
+    .form-dsgvo-details { margin-bottom: .85rem; }
+    .form-dsgvo-details > summary {
+      font-size: .72rem; color: var(--muted); cursor: pointer;
+      list-style: none; opacity: .65; transition: opacity .2s;
+      display: inline-flex; align-items: center; gap: .3rem;
+    }
+    .form-dsgvo-details > summary::after { content: '▾'; font-size: .6rem; transition: transform .2s; }
+    .form-dsgvo-details[open] > summary::after { transform: rotate(-180deg); }
+    .form-dsgvo-details > summary:hover { opacity: 1; }
+    .form-dsgvo-details .dsgvo-body {
+      margin-top: .5rem; font-size: .71rem; color: var(--muted);
+      line-height: 1.7; padding: .65rem .9rem;
+      border-left: 2px solid var(--cream-dk); opacity: .75;
+    }
+    .form-dsgvo-details .dsgvo-body a { color: var(--sage); text-decoration: underline; }
+    .form-field-checkbox { margin-bottom: 1rem; }
+    .checkbox-label {
+      display: flex; align-items: flex-start; gap: .55rem;
+      font-size: .78rem; color: var(--muted); line-height: 1.6; cursor: pointer; opacity: .8;
+    }
+    .checkbox-label input[type="checkbox"] { margin-top: .22rem; flex-shrink: 0; accent-color: var(--black); width: 14px; height: 14px; }
+    .checkbox-label a { color: var(--sage); text-decoration: underline; }
+    .footer-ext-note {
+      font-size: .72rem; opacity: .4; line-height: 1.6;
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-ext-note a { color: inherit; text-decoration: underline; }
+
+    .cookie-main { flex: 1; min-width: 0; }
+    .cookie-mob-row { display: none; }
+    .cookie-text-short { font-size: .75rem; opacity: .8; line-height: 1.55; flex: 1; }
+    .cookie-more-btn { font-size: .75rem; color: var(--sage); flex-shrink: 0; padding: 0; opacity: .9; white-space: nowrap; }
+    .cookie-details { margin-top: .65rem; }
+    .cookie-details > summary {
+      font-size: .76rem; color: var(--sage); cursor: pointer;
+      list-style: none; display: inline-flex; align-items: center; gap: .3rem;
+      opacity: .85; user-select: none;
+    }
+    .cookie-details > summary::after { content: '▾'; font-size: .65rem; transition: transform .2s; }
+    .cookie-details[open] > summary::after { transform: rotate(-180deg); }
+    .cookie-details > summary:hover { opacity: 1; }
+    .cookie-details-body {
+      margin-top: .65rem; padding: .75rem 1rem;
+      background: rgba(255,255,255,.06); border-radius: var(--r-sm);
+      border-left: 2px solid var(--sage); font-size: .75rem; line-height: 1.65;
+    }
+    .cookie-details-body p { margin-bottom: .45rem; }
+    .cookie-details-link { color: var(--sage); text-decoration: underline; font-size: .75rem; }
+    @media (max-width: 768px) {
+      #cookie-banner { flex-direction: column; align-items: stretch; padding: .85rem 1.1rem; gap: .5rem; }
+      .cookie-mob-row { display: flex; align-items: flex-start; justify-content: space-between; gap: .6rem; }
+      .cookie-full-content { display: none; }
+      #cookie-banner.expanded .cookie-full-content { display: block; border-top: 1px solid rgba(255,255,255,.1); padding-top: .6rem; margin-top: .3rem; }
+      .cookie-btns { width: 100%; }
+      #cookie-accept { width: 100%; justify-content: center; }
+    }
+
+    /* ── FOOTER ── */
+    footer { background: #0D0D0D; color: var(--cream); padding: 2.5rem 0; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; }
+    .footer-logo { font-family: var(--mono); font-size: 1.15rem; font-weight: 700; }
+    .footer-logo span { color: var(--sage); }
+    .footer-links { display: flex; gap: 1.4rem; font-size: .8rem; opacity: .6; }
+    .footer-links a:hover { opacity: 1; }
+    .footer-copy { font-size: .76rem; opacity: .45; text-align: right; line-height: 1.7; }
+    .footer-copy a:hover { opacity: 1; }
+
+    /* ── CONTINUOUS CSS ANIMATIONS ── */
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      40%      { transform: translateY(-10px) rotate(.6deg); }
+      70%      { transform: translateY(-4px) rotate(-.4deg); }
+    }
+    .hero-badge { animation: float 5s ease-in-out infinite; }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    .terra-rule {
+      background: linear-gradient(90deg, var(--black) 0%, var(--sage) 40%, var(--black) 100%);
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* ── SCROLL ANIMATIONS (set via JS, not CSS, so text is visible if JS fails) ── */
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .card-4, .partner-cards { grid-template-columns: repeat(2,1fr); }
+      .mgk-stats { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 900px) {
+      .erde-grid, .dirndln-grid, .heim-grid, .boden-grid,
+      .events-grid, .firma-grid, .mgk-body, .kontakt-grid,
+      .kunden-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .partner-intro { grid-template-columns: 1fr; }
+      .split { grid-template-columns: 1fr; }
+      .card-3 { grid-template-columns: 1fr 1fr; }
+      .amfeld-grid { grid-template-columns: 1fr; }
+      .bestellen-grid { grid-template-columns: 1fr; }
+      .damm-cols { grid-template-columns: 1fr; }
+      .forma-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-socials { display: none; }
+      .burger { display: flex; }
+      .mob-menu { display: flex; }
+      .card-3, .card-4 { grid-template-columns: 1fr; }
+      .acts-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-badge { display: none; }
+      .hero-logo-big { width: clamp(150px,60vw,280px); margin-bottom: 2rem; }
+      .galerie-grid { grid-template-columns: repeat(2, 1fr); gap: 2px; }
+      .footer-row { flex-direction: column; align-items: flex-start; }
+      .footer-copy { text-align: left; }
+      .btn { white-space: normal; }
+    }
+    @media (max-width: 480px) {
+      .partner-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#hero"        onclick="closeMob()">Home</a>
+  <a href="#dirndln"     onclick="closeMob()">Dirndln & Mehr</a>
+  <a href="#amfeld"      onclick="closeMob()">Am Feld</a>
+  <a href="#events"      onclick="closeMob()">Events</a>
+  <a href="#firma"       onclick="closeMob()">Firmenangebote</a>
+  <a href="#galerie"     onclick="closeMob()">Galerie</a>
+  <a href="#mgk"         onclick="closeMob()">Marktgärtnerei</a>
+  <a href="#bestellen"   onclick="closeMob()">Bestellen</a>
+  <a href="#kontakt"     onclick="closeMob()">Kontakt</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-row">
+      <a href="#hero" class="nav-logo">
+        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2021/02/Dirndl-am-Feld_Logo_weiss-300x110.png"
+             alt="Dirndln am Feld" class="nav-logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#dirndln">Dirndln & Mehr</a></li>
+        <li><a href="#amfeld">Am Feld</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#firma">Firmenangebote</a></li>
+        <li><a href="#galerie">Galerie</a></li>
+        <li><a href="#mgk">Marktgärtnerei</a></li>
+        <li><a href="#bestellen">Bestellen ↗</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <div class="nav-socials">
+        <a href="https://www.instagram.com/dirndln_am_feld/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+        </a>
+        <a href="https://www.facebook.com/dirndlnamfeld" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+      <button class="burger" id="burger" onclick="toggleMob()" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <img class="hero-img" src="DSCF3248-2.jpg" alt="Dirndln am Feld – Folientunnel im Morgenlicht">
+  <div class="hero-overlay"></div>
+  <div class="wrap">
+    <div class="hero-body">
+      <img src="https://dirndlnamfeld.bio/wp-content/uploads/2021/02/Signet-farbe-weiss.png"
+           alt="Dirndln am Feld" class="hero-logo-big">
+      <p class="hero-tag">Bio-Marktgärtnerei · Kirchberg am Wagram · Niederösterreich</p>
+      <p class="hero-sub">Wir sind eine Marktgärtnerei mit Haltung, Hand und Herz — direkt vom Feld zu deinem Tisch.</p>
+      <div class="hero-ctas">
+        <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-oc">Jetzt bestellen ↗</a>
+        <a href="#erde" class="btn btn-oc">Mehr erfahren</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-badge"><strong>Bio</strong><span>zertifiziert</span></div>
+</section>
+
+<!-- ES GEHT UM DIE ERDE -->
+<section id="erde">
+  <div class="wrap">
+    <div class="js-reveal" style="text-align:center; margin-bottom:3.5rem;">
+      <h2 class="h-display" style="font-size:clamp(2rem,5vw,3.8rem);">
+        <em>Frisch</em>. Knackig. Hand geerntet. Aus der Region.
+      </h2>
+    </div>
+    <div class="erde-grid">
+      <div class="erde-img js-reveal-left">
+        <img src="DSCF7930.jpg" alt="Es geht um die Erde" loading="lazy">
+      </div>
+      <div class="erde-text js-reveal-right">
+        <span class="eyebrow">Es geht um die …</span>
+        <h2 class="h-display">… <em>Erde</em></h2>
+        <p class="intro">Alles dreht sich um die Erde, die wir <em>dirndln</em> buchstäblich in unseren Händen halten. Wir sind eine Marktgärtnerei mit Haltung, Hand und Herz. Die Erde ist unsere Welt — wir sind glücklich, wenn wir mit unseren Händen den Boden bearbeiten.</p>
+        <div class="erde-pillars">
+          <div class="erde-pillar">
+            <div class="erde-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="erde-pillar-text">
+              <h4>Unsere Haltung</h4>
+              <p>Oft gekrümmt, am Feld. Aber immer aufrecht, wenn's darum geht, für eine nachhaltige Landwirtschaft einzutreten — und für alles, was damit zusammenhängt.</p>
+            </div>
+          </div>
+          <div class="erde-pillar">
+            <div class="erde-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+            </div>
+            <div class="erde-pillar-text">
+              <h4>Unsere Hände</h4>
+              <p>Rauh, mit Erde unter den Fingernägeln. Aber in jeder Beziehung sauber — denn wir arbeiten ohne Pestizide, ohne Kunstdünger, ohne Kompromisse.</p>
+            </div>
+          </div>
+          <div class="erde-pillar">
+            <div class="erde-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="erde-pillar-text">
+              <h4>Unsere Herzen</h4>
+              <p>Groß und offen für alles und alle, die sich mit uns verbunden fühlen. Wir glauben daran, dass gutes Essen die Welt besser macht.</p>
+            </div>
+          </div>
+        </div>
+        <a href="#mgk" class="btn btn-o" style="margin-top:2rem;">Die Marktgärtnerei. Tradition mit großer Zukunft.</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRNDLN & MEHR -->
+<section id="dirndln">
+  <div class="wrap">
+    <div class="dirndln-grid">
+      <div class="dirndln-text js-reveal-left">
+        <span class="eyebrow">Dirndln & Mehr</span>
+        <h2 class="h-display">Sarah &amp; <em>Dreamteam</em>. Wir dirndln.</h2>
+        <p>Ich, Sarah Schmolmüller, von der Stadt aufs Land. Zuerst studierte ich Tourismus, dann machte ich meinen Master in Umwelt- und Nachhaltigkeitsmanagement. 2020, mit 24 Jahren, habe ich meine Vision verwirklicht und die Marktgärtnerei in Kirchberg am Wagram gegründet.</p>
+        <blockquote>„Wir müssen wieder mehr auf unser Gefühl achten. Was tut uns gut?"</blockquote>
+        <p>Auf einem Hektar biozertifiziertem Boden wächst ein Universum aus über 300 Sorten — in unbeheizten Folientunneln, ohne Kunstlicht, auf einem der tiefsten Lössböden Österreichs.</p>
+        <h3 style="font-size:1.3rem;color:var(--black);font-weight:700;margin:1.75rem 0 .75rem;">Das Dreamteam. Eins mit der Natur. Eins mit uns.</h3>
+        <p>Die Wahrheit ist: Unser Team funktioniert deshalb so gut, weil wir gemeinsame Werte teilen — Freude an der Arbeit, das Bewusstsein für sinnvolles Tun, Wertschätzung für körperliche Arbeit, gemeinsame Ziele und tägliche Genussmomente.</p>
+        <p>Das gilt übrigens für jede Art von Beziehungen. <strong>Danke, Dreamteam!</strong></p>
+        <span class="terra-rule"></span>
+      </div>
+      <div class="dirndln-img js-reveal-right">
+        <img src="DSCF8089-1.jpg" alt="Sarah & Dreamteam" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KUNDEN -->
+<section id="kunden">
+  <div class="wrap">
+    <div class="kunden-grid">
+      <div class="kunden-content js-reveal-left">
+        <span class="eyebrow">Gastronomiepartner</span>
+        <h2 class="h-display">Echte Naturliebhaber. <em>Unsere Kunden.</em></h2>
+        <p class="lead" style="margin-top:1rem;">Wer uns kennt, liebt uns. Daher beliefern wir die Spitzengastronomie jede Woche — nämlich 50 Wochen pro Jahr. Von der erntefrischen Artischocke bis zur essbaren Blüte.</p>
+        <div class="pills">
+          <span class="pill"><a href="https://www.tian-restaurant.com/" target="_blank" rel="noopener">Tian</a></span>
+          <span class="pill"><a href="https://www.mrazundsohn.at/" target="_blank" rel="noopener">Mraz &amp; Sohn</a></span>
+          <span class="pill"><a href="https://www.centrala.at/" target="_blank" rel="noopener">Rosebar Centrala</a></span>
+          <span class="pill"><a href="https://weinskandal.at/pages/rundbar" target="_blank" rel="noopener">R&amp;Bar</a></span>
+          <span class="pill"><a href="https://www.wildling-foods.at/" target="_blank" rel="noopener">Wildling Foods</a></span>
+          <span class="pill">Kraus</span>
+          <span class="pill"><a href="https://cafekandl.at/" target="_blank" rel="noopener">Café Kandl</a></span>
+          <span class="pill">Mast</span>
+          <span class="pill"><a href="https://gut-oberstockstall.at/startseite.html" target="_blank" rel="noopener">Gut Oberstockstall</a></span>
+          <span class="pill"><a href="https://www.grillmaier.at/" target="_blank" rel="noopener">Grillmaier Heuriger</a></span>
+          <span class="pill"><a href="https://www.esslokal.com/" target="_blank" rel="noopener">Esslokal</a></span>
+        </div>
+        <div style="margin-top:2.5rem;">
+          <a href="#bestellen" class="btn btn-p">Jetzt bestellen</a>
+        </div>
+      </div>
+      <div class="kunden-photo js-reveal-right">
+        <img src="DSCF8476.jpg" alt="Unsere Kunden" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER & NETZWERKE -->
+<section id="partner">
+  <div class="wrap">
+    <div class="partner-intro">
+      <div class="partner-img js-reveal-left">
+        <img src="DSCF5848.jpg" alt="Unsere Netzwerke" loading="lazy">
+      </div>
+      <div class="js-reveal-right">
+        <span class="eyebrow">Netzwerk & Partner</span>
+        <h2 class="h-display">Wir bringen's. Zusammen. <em>Unsere Partner.</em></h2>
+        <p class="lead" style="margin-top:1rem;">Wir setzen auf Kooperation statt Konkurrenz — denn gemeinsam können wir mehr bewegen.</p>
+      </div>
+    </div>
+
+    <p class="net-label">Direkte Kooperationen</p>
+    <div class="partner-cards">
+      <div class="pcard">
+        <h4>Toni Eckart</h4>
+        <p>Gemeinsame Gerätenutzung für einen ressourcenschonenden Betrieb.</p>
+        <a href="https://www.was-uns-gut-tut.at/" target="_blank" rel="noopener">was-uns-gut-tut.at ↗</a>
+      </div>
+      <div class="pcard">
+        <h4>Grand Garten</h4>
+        <p>Kooperation für Saatgutmaschinen und gemeinsame Anbauplanung.</p>
+        <a href="https://www.grandfarm.at" target="_blank" rel="noopener">grandfarm.at ↗</a>
+      </div>
+      <div class="pcard">
+        <h4>Reinsaat</h4>
+        <p>Zugang zu samenfestem Saatgut-Überschuss aus österreichischer Züchtung.</p>
+        <a href="https://www.reinsaat.at" target="_blank" rel="noopener">reinsaat.at ↗</a>
+      </div>
+      <div class="pcard">
+        <h4>Biohof Steidl</h4>
+        <p>Expertise-Partner für Kohlanbau und Bio-Anbauberatung.</p>
+        <a href="https://www.biohof-steidl.at" target="_blank" rel="noopener">biohof-steidl.at ↗</a>
+      </div>
+    </div>
+
+    <p class="net-label" style="margin-top:1.5rem;">Dach &amp; Fach. Unsere Netzwerke.</p>
+    <div class="net-pills">
+      <span class="net-pill"><a href="https://gaumenhoch.at/produzent/dirndln-am-feld" target="_blank" rel="noopener">Gaumenhoch</a></span>
+      <span class="net-pill"><a href="https://regionalwert-ag.at/betriebe" target="_blank" rel="noopener">Regionalwert AG</a></span>
+      <span class="net-pill"><a href="https://www.bio-austria.at/biobauer/dirndln-am-feld-sabi-gesbr" target="_blank" rel="noopener">Bio Austria</a></span>
+      <span class="net-pill"><a href="https://www.slow-food.at/genussfuehrer/l/dirndln-am-feld" target="_blank" rel="noopener">Slow Food Austria</a></span>
+      <span class="net-pill"><a href="https://empowerthisplanet.earth/menschen/dirndln-am-fel" target="_blank" rel="noopener">Empower this Planet</a></span>
+      <span class="net-pill"><a href="https://marktgaertnerei.at" target="_blank" rel="noopener">Marktgärtnerei Österreich</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- HEIMVORTEIL -->
+<section id="heimvorteil">
+  <div class="wrap">
+    <div class="heim-grid">
+      <div class="js-reveal-left">
+        <span class="eyebrow">Heimvorteil. Die Kirchberger.</span>
+        <h2 class="h-display">Der <em>Gemüsekorb</em> für deine Region</h2>
+        <p>Die Kirchberger*innen wissen es zu schätzen, dass sie quasi vor ihrer Haustür frischestes Biogemüse abholen können. Bei uns kannst du dir jeden Mittwoch einen Gemüsekorb auf Vorbestellung bestellen.</p>
+        <div class="korb-box">
+          <div class="korb-price">€ 25</div>
+          <div class="korb-info">Pro Korb · Mittwoch-Abholung<br>Keine Mitgliedschaft erforderlich</div>
+          <span class="korb-badge">Ohne Abo</span>
+        </div>
+        <div class="pickup-list">
+          <div class="pickup-item">
+            <span class="pickup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div>
+              <h5>Kirchberg am Wagram</h5>
+              <p>Mittwochs ab 17:00 Uhr · direkt am Feld</p>
+              <a href="https://www.google.com/maps/place/Marktg%C3%A4rtnerei+%22dirndln+am+feld%22/@48.4301286,15.9006493,727m" target="_blank" rel="noopener">Leopold-Figl-Gasse / Kremser Straße ↗</a>
+            </div>
+          </div>
+          <div class="pickup-item">
+            <span class="pickup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div>
+              <h5>Langenlois</h5>
+              <p>Die Freibäckerin Kerstin · Holzplatz 2</p>
+              <a href="https://www.google.com/maps/place/Die+Freib%C3%A4ckerin/@48.4722142,15.672398,727m" target="_blank" rel="noopener">In Google Maps öffnen ↗</a>
+            </div>
+          </div>
+          <div class="pickup-item">
+            <span class="pickup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div>
+              <h5>Krems-Stein</h5>
+              <p>Breadley Bistro &amp; Café · Steiner Landstraße 82</p>
+              <a href="https://www.google.com/maps/place/BREADLEY+Bistro+%26+Caf%C3%A9/@48.401645,15.5773966,728m" target="_blank" rel="noopener">In Google Maps öffnen ↗</a>
+            </div>
+          </div>
+        </div>
+        <div class="heim-ctas">
+          <a href="https://wa.me/436644683110" target="_blank" rel="noopener" class="btn btn-p">WhatsApp bestellen</a>
+          <a href="mailto:dirndln@feld.bio" class="btn btn-o">E-Mail schreiben</a>
+          <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-o">Online bestellen ↗</a>
+        </div>
+      </div>
+      <div class="heim-img js-reveal-right">
+        <img src="DSCF8490.jpg" alt="Heimvorteil – Kirchberger" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AM FELD -->
+<section id="amfeld">
+  <div class="wrap">
+    <div class="amfeld-header js-reveal">
+      <span class="eyebrow">Am Feld</span>
+      <h2 class="h-display">Von der Hand in den Mund. <em>Gemüse wie damals.</em></h2>
+      <p class="lead" style="margin-top:1rem;">Wir sind eine Marktgärtnerei. Das bedeutet, wir bauen auf kleinster Fläche — ca. 1 Hektar — über 300 Sorten an. Nur Wasser, Sonne, Erde. Den Unterschied sieht man, riecht man, schmeckt man.</p>
+    </div>
+
+    <div class="amfeld-grid">
+      <div class="amfeld-card">
+        <h3>Vielfalt leben. Einfach machen.</h3>
+        <p>Wir setzen auf Vielfalt, denn Vielfalt ist Leben. Österreichs Gemüse-Selbstversorgungsgrad liegt bei nur 55 % (Statistik Austria 2023/24). Wir arbeiten täglich daran, diesen zu verbessern — eine Reihe nach der anderen.</p>
+      </div>
+      <div class="amfeld-card">
+        <h3>Finster &amp; kalt. Schmeckt besser.</h3>
+        <p>Bei uns geht's recht spartanisch zu. Ungeheizte Folientunnel, kein Kunstlicht. Eine Pflanze, die Trockenstress erlebt hat, schmeckt intensiver. Die Früchte wachsen hier ganz von alleine — und ziehen ihre Kraft aus dem guten Boden.</p>
+      </div>
+      <div class="amfeld-card">
+        <h3>Kurz und gut. Unsere Direktvermarktung.</h3>
+        <p>Umwege mögen wir nicht so. Dafür mögen wir den Kontakt zu unseren Kundinnen und Kunden. Deshalb ist Direktvermarktung für uns so wichtig — vom Feld direkt auf den Teller.</p>
+      </div>
+      <div class="amfeld-card">
+        <h3>Wachsende Freude. Unser Sortiment.</h3>
+        <p>Von der Artischocke über Salat, Rhabarber, Paradeiser, Pak Choi, Lemongrass bis hin zu Okra und Baby-Fenchel. Bio-Gemüse, Bio-Jungpflanzen, Bio-Kräuter, Bio-essbare Blüten, Bio-Blumen, Bio-Obst, Bio-Eier.</p>
+      </div>
+    </div>
+
+    <div class="boden-grid">
+      <div class="boden-img js-reveal-left">
+        <img src="DSCF8353.jpg" alt="Am Feld" loading="lazy">
+      </div>
+      <div class="boden-text js-reveal-right">
+        <h3>Achtung, fertig, Löss! Unser Boden.</h3>
+        <p>Unsere Felder liegen in Kirchberg am Wagram, einer in Österreich einzigartigen Region mit bis zu 20 Meter tiefem Lössboden — glaziale Siltablagerungen aus der Eiszeit. Dazu das besondere Mikroklima aus Manhartsberg-Kaltluft und pannonischer Wärme.</p>
+        <h3 style="margin-top:1.5rem;">Ein Haufen Vorteile. Die Dammkultur.</h3>
+        <p>Wir nützen das ganzheitliche Anbausystem der Turiel-Dammkultur. Mit dem Dammgerät werden die Schichten der Erde belüftet — das schafft ideale Bedingungen für außergewöhnliches Gemüse.</p>
+        <div class="damm-cols">
+          <div class="damm-col">
+            <h5>Wasser</h5>
+            <p>Wasser wird länger in der porösen Bodenstruktur gespeichert.</p>
+          </div>
+          <div class="damm-col">
+            <h5>Luft</h5>
+            <p>Die Erde atmet — Tal-Damm-Windkreislauf fördert CO₂-Aufnahme.</p>
+          </div>
+          <div class="damm-col">
+            <h5>Licht</h5>
+            <p>Licht und Schatten beleben das Mikroklima und schaffen Sortenvielfalt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="wrap">
+    <div class="events-grid">
+      <div class="events-text js-reveal-left">
+        <span class="eyebrow">Events</span>
+        <h2 class="h-display">Save the nature. <em>Save the date.</em></h2>
+        <p>Wir feiern das Leben und tragen unsere Idee nach außen — durch Veranstaltungen, die Menschen und Natur zusammenbringen.</p>
+        <blockquote>„Immer was löss. <em>dirndln</em> live."</blockquote>
+        <p>Good life – live: Sarah hält Vorträge, Workshops und Pop-Up-Events ab. Von Feldführungen über Verkostungen bis hin zu saisonalen Mitmach-Aktionen — hier ist immer was los.</p>
+        <div class="events-ctas">
+          <a href="https://dirndlnamfeld.bio/index.php/events-2/" target="_blank" rel="noopener" class="btn btn-p">Alle Events ansehen ↗</a>
+          <a href="https://www.instagram.com/dirndln_am_feld/" target="_blank" rel="noopener" class="btn btn-o">Instagram folgen</a>
+        </div>
+      </div>
+      <div class="events-img js-reveal-right">
+        <img src="DSCF7726.jpg" alt="Events am Feld" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIRMENANGEBOTE -->
+<section id="firma">
+  <div class="wrap">
+    <div class="firma-grid">
+      <div class="firma-text js-reveal-left">
+        <span class="eyebrow">Firmenangebote</span>
+        <h2 class="h-display">Wachstumsmarkt gesucht? <em>Bei uns sind Sie richtig.</em></h2>
+        <p>Unsere Marktgärtnerei lässt echtes Wachstum erleben. Sie planen ein Teambuilding, einen Betriebsausflug oder gibt es einen feierlichen Anlass?</p>
+        <blockquote>„Wer Samen sät, lernt Vertrauen. Wer pflegt, lernt Geduld. <em>Sie kommen als Gruppe. Sie gehen als Team.</em>"</blockquote>
+        <p>Kein Vorwissen erforderlich. Alle Aktivitäten sind saisonal angepasst und individuell auf Ihre Gruppe zugeschnitten.</p>
+        <div class="firma-meta">
+          <div class="firma-meta-item">40 min ab Wien</div>
+          <div class="firma-meta-item">Öffentlich erreichbar</div>
+          <div class="firma-meta-item">Saisonal angepasst</div>
+          <div class="firma-meta-item">Kein Vorwissen nötig</div>
+        </div>
+        <div class="acts-grid">
+          <div class="act">Beete zum Leben erwecken</div>
+          <div class="act">Ernten, was gerade reif ist</div>
+          <div class="act">Jungpflanzenanzucht</div>
+          <div class="act">Samen säen – Zukunft pflanzen</div>
+          <div class="act">Erntegut waschen &amp; sortieren</div>
+          <div class="act">Gemüse küchenfertig vorbereiten</div>
+          <div class="act">Verkosten &amp; Sorten vergleichen</div>
+          <div class="act">Blumensträuße binden</div>
+          <div class="act">Unkraut regulieren</div>
+          <div class="act">Pflanzenpflege &amp; Wachstum</div>
+          <div class="act">Tiere &amp; Pflanzen beobachten</div>
+          <div class="act">Natürliche Pflanzenstärkung</div>
+        </div>
+        <div class="farm-note">Farm to Table: Biologische Mahlzeiten direkt vom Feld — auf Wunsch als kulinarischer Abschluss inklusive.</div>
+        <a href="#kontakt" class="btn btn-p" style="margin-top:2rem;">Kontaktieren Sie mich</a>
+      </div>
+      <div class="firma-img js-reveal-right">
+        <img src="DSCF8525.jpg" alt="Firmenangebote" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="wrap">
+    <div class="galerie-hdr js-reveal">
+      <div>
+        <span class="eyebrow">Galerie</span>
+        <h2 class="h-display">Bilder vom <em>Feld</em></h2>
+      </div>
+      <a href="https://www.instagram.com/dirndln_am_feld/" target="_blank" rel="noopener" class="btn btn-p">Instagram folgen ↗</a>
+    </div>
+  </div>
+  <div class="galerie-grid">
+    <div class="galerie-item"><img src="DSCF2332-1.jpg"    loading="lazy" alt="Galerie 1"></div>
+    <div class="galerie-item"><img src="DSCF3868-1.jpg"  loading="lazy" alt="Galerie 2"></div>
+    <div class="galerie-item"><img src="DSCF3891-1.jpg"  loading="lazy" alt="Galerie 3"></div>
+    <div class="galerie-item"><img src="DSCF3914-1.jpg"  loading="lazy" alt="Galerie 4"></div>
+    <div class="galerie-item"><img src="DSCF5769.jpg"        loading="lazy" alt="Galerie 5"></div>
+    <div class="galerie-item"><img src="DSCF5796.jpg"        loading="lazy" alt="Galerie 6"></div>
+    <div class="galerie-item"><img src="DSCF5806.jpg"        loading="lazy" alt="Galerie 7"></div>
+    <div class="galerie-item"><img src="DSCF5825-2.jpg"    loading="lazy" alt="Galerie 8"></div>
+    <div class="galerie-item"><img src="DSCF5871.jpg"        loading="lazy" alt="Galerie 9"></div>
+    <div class="galerie-item"><img src="DSCF5894.jpg"        loading="lazy" alt="Galerie 10"></div>
+    <div class="galerie-item"><img src="DSCF5952.jpg"        loading="lazy" alt="Galerie 11"></div>
+    <div class="galerie-item"><img src="DSCF6013.jpg"        loading="lazy" alt="Galerie 12"></div>
+    <div class="galerie-item"><img src="DSCF6768.jpg"        loading="lazy" alt="Galerie 13"></div>
+    <div class="galerie-item"><img src="DSCF6781.jpg"        loading="lazy" alt="Galerie 14"></div>
+    <div class="galerie-item"><img src="DSCF7737.jpg"        loading="lazy" alt="Galerie 15"></div>
+    <div class="galerie-item"><img src="DSCF7750-1.jpg"  loading="lazy" alt="Galerie 16"></div>
+    <div class="galerie-item"><img src="DSCF7760.jpg"        loading="lazy" alt="Galerie 17"></div>
+    <div class="galerie-item"><img src="DSCF7803-1.jpg"  loading="lazy" alt="Galerie 18"></div>
+    <div class="galerie-item"><img src="DSCF8205.jpg"        loading="lazy" alt="Galerie 19"></div>
+    <div class="galerie-item"><img src="DSCF8207.jpg"        loading="lazy" alt="Galerie 20"></div>
+    <div class="galerie-item"><img src="DSCF8244-1.jpg"  loading="lazy" alt="Galerie 21"></div>
+    <div class="galerie-item"><img src="DSCF8372.jpg"        loading="lazy" alt="Galerie 22"></div>
+    <div class="galerie-item"><img src="DSCF8419-1.jpg"  loading="lazy" alt="Galerie 23"></div>
+    <div class="galerie-item"><img src="DSCF8422.jpg"        loading="lazy" alt="Galerie 24"></div>
+  </div>
+</section>
+
+<!-- MARKTGÄRTNEREI -->
+<section id="mgk">
+  <div class="wrap">
+    <div class="mgk-header js-reveal">
+      <span class="eyebrow">Die Marktgärtnerei</span>
+      <h2 class="h-display">Tradition mit <em>großer Zukunft</em></h2>
+      <p class="lead" style="margin-top:1rem;">Wir sehen das Konzept Marktgärtnerei als eine der vielversprechendsten Antworten auf die Herausforderungen unserer Zeit — regional, resilient, biologisch und auf kleiner Fläche.</p>
+    </div>
+    <div class="mgk-body">
+      <div class="mgk-text js-reveal-left">
+        <h3>Das Comeback der Kleinstruktur</h3>
+        <p>Marktgärtnerei ist ein innovatives, kleinstrukturiertes und hocheffizientes Produktionssystem: biologisch-intensive Bewirtschaftung kleiner Flächen (typischerweise 0,5–1 Hektar) mit Handarbeit — weit über Bio-Standard hinaus.</p>
+        <p>Das Konzept ist nichts grundlegend Neues — es geht auf das Pariser Marktgärtnerei-System des 19. Jahrhunderts zurück und wird heute von Pionieren wie Eliot Coleman neu belebt und optimiert.</p>
+        <h3>Merkmale der modernen Marktgärtnerei</h3>
+        <p><strong>Bio-intensive Bewirtschaftung:</strong> Statt schwerer Maschinen kommen innovative Kleingeräte zum Einsatz. Dichtes Pflanzen maximiert den Ertrag auf kleiner Fläche bei minimalem Ressourceneinsatz.</p>
+        <p><strong>Vielfalt &amp; Direktvermarktung:</strong> Ein typisches Erkennungsmerkmal ist die außergewöhnlich große Vielfalt — 40 bis 50 verschiedene Gemüsearten saisonal produziert. Direktvermarktung über Wochenmärkte, Abokisten, Online-Shops, Hofläden und Gastronomie.</p>
+        <p><strong>Landwirtschaft als attraktiver Arbeitsplatz:</strong> Durch den bewussten Verzicht auf schweres und teures Gerät werden die Einstiegshürden gesenkt — für Quereinsteiger*innen und Betriebsnachfolger*innen gleichermaßen.</p>
+        <div class="mgk-features">
+          <span class="mgk-feat">Bio-intensiv</span>
+          <span class="mgk-feat">Handarbeit</span>
+          <span class="mgk-feat">Direktvermarktung</span>
+          <span class="mgk-feat">Ungeheizte Tunnel</span>
+          <span class="mgk-feat">Kein Kunstlicht</span>
+          <span class="mgk-feat">Regenerativ</span>
+          <span class="mgk-feat">Standardisierte Beetmaße</span>
+        </div>
+        <div class="sdg-box">
+          <strong>11/17</strong>
+          <p>Das Konzept Marktgärtnerei nimmt Einfluss auf 11 von 17 Zielen der Vereinten Nationen (Agenda 2030, SDGs).</p>
+        </div>
+      </div>
+      <div class="js-reveal-right">
+        <div class="mgk-panel">
+          <div class="mgk-img">
+            <img src="DSCF8474.jpg" alt="Die Marktgärtnerei" loading="lazy">
+          </div>
+          <div class="mgk-stats">
+            <div class="mgk-stat"><strong>1 ha</strong><span>Bio-Fläche</span></div>
+            <div class="mgk-stat"><strong>300+</strong><span>Sorten</span></div>
+            <div class="mgk-stat"><strong>50</strong><span>Wochen/Jahr</span></div>
+            <div class="mgk-stat"><strong>11/17</strong><span>UN-SDGs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BESTELLE HIER -->
+<section id="bestellen">
+  <div class="wrap">
+    <div style="margin-bottom:3rem;" class="js-reveal">
+      <span class="eyebrow">Bestelle Hier</span>
+      <h2 class="h-display">Direkt vom Feld zu <em>dir</em></h2>
+    </div>
+    <div class="bestellen-grid">
+      <div class="bestell-card js-reveal">
+        <div class="bestell-card-img">
+          <img src="DSCF8452.jpg" alt="Privatkunden" loading="lazy">
+        </div>
+        <div class="bestell-card-body">
+          <h3>Privatkunden</h3>
+          <h4>Der Gemüsekorb</h4>
+          <p>Jeden Mittwoch erntefrisch abzuholen von den Dirndln am Feld. <strong>25 Euro für ehrliches Handwerk.</strong> Ganz flexibel, ohne Abo.</p>
+          <div class="contact-row">
+            <a href="https://wa.me/436644683110" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.49"/></svg>
+              +43 664 46 83 110
+            </a>
+            <a href="mailto:dirndln@feld.bio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              dirndln@feld.bio
+            </a>
+          </div>
+          <h4>Individuell bestellen</h4>
+          <p>Auch Privatkunden können individuell online über unser Bestellsystem MARTAS bestellen. Abholung am Feld immer ab Mittwoch.</p>
+          <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-p" style="margin-top:.5rem;">Bestellsystem MARTAS ↗</a>
+        </div>
+      </div>
+      <div class="bestell-card js-reveal">
+        <div class="bestell-card-img">
+          <img src="DSCF3698.jpg" alt="Gastronomie" loading="lazy">
+        </div>
+        <div class="bestell-card-body">
+          <h3>Gastronomie</h3>
+          <h4>Bee to bee.</h4>
+          <p>Die Qualität unserer erntefrischen Produkte wissen immer mehr Spitzengastronom*innen zu schätzen — und natürlich auch deren Gäste, denn man schmeckt einfach den Unterschied.</p>
+          <p>Bestell einfach über unser Onlinesystem MARTAS. <strong>Wir bereiten den Boden für deine Haube.</strong></p>
+          <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-p" style="margin-top:.75rem;">Bestellsystem MARTAS ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section id="quote">
+  <div class="wrap">
+    <div class="quote-inner js-reveal">
+      <span class="eyebrow">Unsere Philosophie</span>
+      <blockquote>
+        „Es ist mehr als Gemüse. Wir sind ein Ort, an dem sich Menschen und Natur begegnen."
+      </blockquote>
+      <p>Unser Tun dreht sich um einen gesunden Boden für heute und nachkommende Generationen, um authentischen Geschmack, um Vielfalt, um sinnvolle Arbeitsplätze für Menschen in der Region und um Empathie im Umgang miteinander.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="wrap">
+    <div class="kontakt-grid">
+      <div class="kontakt-info js-reveal-left">
+        <span class="eyebrow">Kontakt</span>
+        <h2 class="h-display">Nur zu, wir sind <em>offen!</em></h2>
+        <p>Solltest du noch Fragen haben, hab keine Scheu und schreibe uns einfach eine Nachricht. Wir gehen auf individuelle Nachrichten persönlich ein und melden uns so schnell wie möglich bei dir. Liebe Grüße, Sarah</p>
+        <div class="clist">
+          <div class="citem">
+            <div class="cicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="citem-text"><label>Gründerin</label><span>Sarah Schmolmüller</span></div>
+          </div>
+          <div class="citem">
+            <div class="cicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div class="citem-text"><label>Adresse</label><span>Obere Hauptstraße 5<br>3485 Haitzendorf</span></div>
+          </div>
+          <div class="citem">
+            <div class="cicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.25a2 2 0 0 1 1.73-2.17h3a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l1.19-1.19a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72a2 2 0 0 1 1.6 2.09z"/></svg></div>
+            <div class="citem-text"><label>Telefon</label><a href="tel:+436644683110">+43 664 46 83 110</a></div>
+          </div>
+          <div class="citem">
+            <div class="cicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="citem-text"><label>E-Mail</label><a href="mailto:dirndln@feld.bio">dirndln@feld.bio</a></div>
+          </div>
+        </div>
+        <div class="soc-row">
+          <a href="https://www.instagram.com/dirndln_am_feld/" target="_blank" rel="noopener" class="soc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/dirndlnamfeld" target="_blank" rel="noopener" class="soc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <div class="kontakt-form js-reveal-right">
+        <h3 class="h-section">Schreib uns <em>einfach</em></h3>
+        <p>Wir antworten auf jede Nachricht persönlich und so schnell wie möglich.</p>
+        <div id="contact-form-wrap">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name">Name *</label>
+              <input type="text" id="name" placeholder="Dein Name">
+            </div>
+            <div class="form-field">
+              <label for="email">E-Mail *</label>
+              <input type="email" id="email" placeholder="deine@email.at">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="telefon">Telefonnummer</label>
+            <input type="tel" id="telefon" placeholder="+43 ...">
+          </div>
+          <div class="form-field">
+            <label for="betreff">Betreff *</label>
+            <input type="text" id="betreff" placeholder="Worum geht es?">
+          </div>
+          <div class="form-field">
+            <label for="nachricht">Nachricht *</label>
+            <textarea id="nachricht" placeholder="Deine Nachricht an uns …"></textarea>
+          </div>
+          <details class="form-dsgvo-details">
+            <summary>Datenschutzhinweis (Art. 13 DSGVO)</summary>
+            <div class="dsgvo-body">
+              Verantwortliche: Sarah Schmolmüller, Dirndln am Feld – Sabi GesbR, Obere Hauptstraße 5, 3485 Haitzendorf, <a href="mailto:dirndln@feld.bio">dirndln@feld.bio</a>. Ihre Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO. Speicherdauer: bis zur vollständigen Bearbeitung, max. 3 Jahre. Rechte: Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit (Art. 15–20 DSGVO). Beschwerde: Österreichische Datenschutzbehörde, Wickenburggasse 8, 1080 Wien, <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a>. · <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung ↗</a>
+            </div>
+          </details>
+          <div class="form-field form-field-checkbox">
+            <label class="checkbox-label">
+              <input type="checkbox" id="datenschutz-check">
+              Ich stimme der Verarbeitung meiner Daten gemäß <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *
+            </label>
+          </div>
+          <button type="button" class="btn btn-p" onclick="sendContactForm()" style="width:100%;justify-content:center;">Nachricht senden</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="footer-logo">
+        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2021/02/Dirndl-am-Feld_Logo_weiss-300x110.png"
+             alt="Dirndln am Feld" class="footer-logo-img">
+      </div>
+      <div class="footer-links">
+        <a href="https://dirndlnamfeld.bio/index.php/impressum/" target="_blank" rel="noopener">Impressum</a>
+        <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener">Datenschutz</a>
+        <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener">Online Bestellen</a>
+        <a href="https://www.instagram.com/dirndln_am_feld/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <div class="footer-copy">
+        © Dirndln am Feld · Kirchberg am Wagram<br>
+        Design: <a href="https://texx.co" target="_blank" rel="noopener">TExx IT-Solutions</a>
+      </div>
+    </div>
+    <p class="footer-ext-note">Diese Website enthält Links zu externen Diensten. Beim Klick auf externe Links gelten die Datenschutzbestimmungen der jeweiligen Anbieter: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Maps</a> · <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">WhatsApp / Meta</a> · <a href="https://privacycenter.instagram.com/policy" target="_blank" rel="noopener">Instagram / Meta</a> · MARTAS Bestellsystem. Die Betreiberin dieser Website ist nicht verantwortlich für die Inhalte oder Datenschutzpraktiken dieser externen Anbieter.</p>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;">
+  <div class="cookie-main">
+    <div class="cookie-mob-row">
+      <p class="cookie-text-short">Diese Website nutzt notwendige Animations-Skripte. <strong>Keine Tracking-Cookies.</strong></p>
+      <button class="cookie-more-btn" onclick="document.getElementById('cookie-banner').classList.toggle('expanded');this.textContent=document.getElementById('cookie-banner').classList.contains('expanded')?'Weniger ▴':'Mehr ▾'">Mehr ▾</button>
+    </div>
+    <div class="cookie-full-content">
+      <p class="cookie-text">Diese Website verwendet technisch notwendige Skripte (GSAP-Animationsbibliothek von jsDelivr, einem EU-ansässigen CDN) zur Darstellung. Es werden <strong>keine Tracking-Cookies</strong> gesetzt und keine Analyse-Tools verwendet.</p>
+      <details class="cookie-details">
+        <summary>Datenschutz-Info</summary>
+        <div class="cookie-details-body">
+          <p>Verantwortliche: Sarah Schmolmüller, Dirndln am Feld – Sabi GesbR, Obere Hauptstraße 5, 3485 Haitzendorf. jsDelivr ist ein EU-ansässiges CDN – dabei wird Ihre IP-Adresse übertragen, aber nicht gespeichert. Beim Klick auf externe Links (Google Maps, WhatsApp, Instagram) gelten die Datenschutzbestimmungen der jeweiligen Anbieter.</p>
+          <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener" class="cookie-details-link">Vollständige Datenschutzerklärung ↗</a>
+        </div>
+      </details>
+    </div>
+  </div>
+  <div class="cookie-btns">
+    <button id="cookie-accept" class="btn btn-oc" style="font-size:.8rem;padding:.6rem 1.4rem;">Verstanden &amp; Akzeptieren</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Schließen">✕</button>
+  <button id="lightbox-prev" onclick="navigateLightbox(-1)" aria-label="Vorheriges Bild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next" onclick="navigateLightbox(1)" aria-label="Nächstes Bild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="9 18 15 12 9 6"/></svg></button>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+<script>
+(function () {
+  /* ── Lenis smooth scroll (optional — fault-tolerant) ── */
+  let lenis;
+  try {
+    lenis = new Lenis({ lerp: 0.085 });
+    (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+  } catch(e) { lenis = null; }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(t, { offset: -76 });
+      else t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ── Nav scroll ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), { passive: true });
+
+  /* ── GSAP + ScrollTrigger ── */
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Set initial hidden state via JS — elements are visible without JS */
+  const revealEls   = document.querySelectorAll('.js-reveal');
+  const revealLeft  = document.querySelectorAll('.js-reveal-left');
+  const revealRight = document.querySelectorAll('.js-reveal-right');
+
+  gsap.set(revealEls,   { opacity: 0, y: 30 });
+  gsap.set(revealLeft,  { opacity: 0, x: -40 });
+  gsap.set(revealRight, { opacity: 0, x:  40 });
+
+  revealEls.forEach(el => gsap.to(el, {
+    opacity: 1, y: 0, duration: .75, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  }));
+  revealLeft.forEach(el => gsap.to(el, {
+    opacity: 1, x: 0, duration: .8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  }));
+  revealRight.forEach(el => gsap.to(el, {
+    opacity: 1, x: 0, duration: .8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  }));
+
+  /* ── Hero entrance ── */
+  const tl = gsap.timeline({ delay: .15 });
+  tl.from('#nav',            { opacity: 0, y: -24, duration: .6,  ease: 'power2.out' })
+    .from('.hero-logo-big',  { opacity: 0, y: -18, duration: .75, ease: 'power2.out' }, '-=.2')
+    .from('.hero-tag',       { opacity: 0, y: -14, duration: .55, ease: 'power2.out' }, '-=.4')
+    .from('.hero-sub',       { opacity: 0, y:  20, duration: .7,  ease: 'power2.out' }, '-=.35')
+    .from('.hero-ctas',      { opacity: 0, y:  16, duration: .6,  ease: 'power2.out' }, '-=.45')
+    /* opacity only — CSS float animation owns the transform */
+    .from('.hero-badge',     { opacity: 0, duration: .6 }, '-=.5');
+
+  /* ── Hero parallax on scroll ── */
+  gsap.to('.hero-img', {
+    yPercent: 30, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+  });
+
+  /* ── Staggered restaurant pills ── */
+  gsap.set('.pill', { opacity: 0, scale: .82, y: 14 });
+  gsap.to('.pill', {
+    opacity: 1, scale: 1, y: 0, duration: .38, ease: 'back.out(1.8)', stagger: .055,
+    scrollTrigger: { trigger: '.pills', start: 'top 87%', once: true }
+  });
+
+  /* ── Staggered network pills ── */
+  gsap.set('.net-pill', { opacity: 0, scale: .82, y: 14 });
+  gsap.to('.net-pill', {
+    opacity: 1, scale: 1, y: 0, duration: .38, ease: 'back.out(1.8)', stagger: .075,
+    scrollTrigger: { trigger: '.net-pills', start: 'top 87%', once: true }
+  });
+
+  /* ── Partner cards stagger ── */
+  gsap.set('.pcard', { opacity: 0, y: 36 });
+  gsap.to('.pcard', {
+    opacity: 1, y: 0, duration: .55, ease: 'power2.out', stagger: .11,
+    scrollTrigger: { trigger: '.partner-cards', start: 'top 87%', once: true }
+  });
+
+  /* ── Am Feld cards stagger ── */
+  gsap.set('.amfeld-card', { opacity: 0, y: 42 });
+  gsap.to('.amfeld-card', {
+    opacity: 1, y: 0, duration: .6, ease: 'power2.out', stagger: .13,
+    scrollTrigger: { trigger: '.amfeld-grid', start: 'top 87%', once: true }
+  });
+
+  /* ── Erde pillars stagger ── */
+  gsap.set('.erde-pillar', { opacity: 0, x: -28, y: 10 });
+  gsap.to('.erde-pillar', {
+    opacity: 1, x: 0, y: 0, duration: .58, ease: 'power2.out', stagger: .16,
+    scrollTrigger: { trigger: '.erde-pillars', start: 'top 88%', once: true }
+  });
+
+  /* ── Pickup location cards stagger ── */
+  gsap.set('.pickup-item', { opacity: 0, x: 32 });
+  gsap.to('.pickup-item', {
+    opacity: 1, x: 0, duration: .52, ease: 'power2.out', stagger: .13,
+    scrollTrigger: { trigger: '.pickup-list', start: 'top 88%', once: true }
+  });
+
+  /* ── Firma activity rows stagger ── */
+  gsap.set('.act', { opacity: 0, y: 20 });
+  gsap.to('.act', {
+    opacity: 1, y: 0, duration: .32, ease: 'power1.out', stagger: .045,
+    scrollTrigger: { trigger: '.acts-grid', start: 'top 88%', once: true }
+  });
+
+  /* ── Dammkultur columns stagger ── */
+  gsap.set('.damm-col', { opacity: 0, y: 28, scale: .96 });
+  gsap.to('.damm-col', {
+    opacity: 1, y: 0, scale: 1, duration: .5, ease: 'power2.out', stagger: .14,
+    scrollTrigger: { trigger: '.damm-cols', start: 'top 88%', once: true }
+  });
+
+  /* ── MGK stats count-up ── */
+  const statDefs = [
+    { idx: 0, to: 1,   suffix: ' ha' },
+    { idx: 1, to: 300, suffix: '+'   },
+    { idx: 2, to: 50,  suffix: ''    },
+    { idx: 3, to: 11,  suffix: '/17' },
+  ];
+  const statEls = document.querySelectorAll('.mgk-stat strong');
+  ScrollTrigger.create({
+    trigger: '.mgk-stats', start: 'top 85%', once: true,
+    onEnter() {
+      statDefs.forEach(({ idx, to, suffix }) => {
+        const el = statEls[idx];
+        if (!el) return;
+        const proxy = { val: 0 };
+        gsap.to(proxy, {
+          val: to, duration: 2.2, ease: 'power2.out',
+          onUpdate() { el.textContent = Math.round(proxy.val) + suffix; }
+        });
+      });
+    }
+  });
+
+})();
+
+/* ── Galerie lightbox ── */
+const lightbox    = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const galleryImgs = [...document.querySelectorAll('.galerie-item img')];
+let currentIndex  = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = galleryImgs[index].src;
+  lightboxImg.alt = galleryImgs[index].alt;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+function navigateLightbox(dir) {
+  currentIndex = (currentIndex + dir + galleryImgs.length) % galleryImgs.length;
+  lightboxImg.src = galleryImgs[currentIndex].src;
+  lightboxImg.alt = galleryImgs[currentIndex].alt;
+}
+
+document.querySelectorAll('.galerie-item').forEach((item, i) => {
+  item.addEventListener('click', () => openLightbox(i));
+});
+
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowRight') navigateLightbox(1);
+  if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+});
+
+let touchStartX = 0;
+lightbox.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchend',   e => {
+  const delta = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(delta) > 50) navigateLightbox(delta < 0 ? 1 : -1);
+});
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+/* ── Contact form (mailto, no <form> = no Chrome warning) ── */
+function sendContactForm() {
+  const name     = document.getElementById('name').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const telefon  = document.getElementById('telefon').value.trim();
+  const betreff  = document.getElementById('betreff').value.trim();
+  const nachricht= document.getElementById('nachricht').value.trim();
+  const consent  = document.getElementById('datenschutz-check').checked;
+  if (!name || !email || !betreff || !nachricht) {
+    alert('Bitte fülle alle Pflichtfelder (*) aus.');
+    return;
+  }
+  if (!consent) {
+    alert('Bitte stimme der Datenschutzerklärung zu.');
+    return;
+  }
+  const body = 'Name: ' + name + '\nE-Mail: ' + email + (telefon ? '\nTelefon: ' + telefon : '') + '\n\n' + nachricht;
+  window.location.href = 'mailto:dirndln@feld.bio?subject=' + encodeURIComponent(betreff) + '&body=' + encodeURIComponent(body);
+}
+
+/* ── Cookie consent ── */
+(function () {
+  const banner = document.getElementById('cookie-banner');
+  if (!localStorage.getItem('daf_consent')) banner.style.display = 'flex';
+  document.getElementById('cookie-accept').addEventListener('click', function () {
+    localStorage.setItem('daf_consent', 'accepted');
+    banner.style.display = 'none';
+  });
+})();
+
+/* ── Mobile menu ── */
+function toggleMob() {
+  const m = document.getElementById('mobMenu');
+  const b = document.getElementById('burger');
+  const open = m.classList.toggle('open');
+  b.classList.toggle('open', open);
+  m.style.display = 'flex';
+  document.body.style.overflow = open ? 'hidden' : '';
+  setTimeout(() => { if (!open) m.style.display = 'none'; }, 360);
+}
+function closeMob() {
+  const m = document.getElementById('mobMenu');
+  const b = document.getElementById('burger');
+  m.classList.remove('open'); b.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { m.style.display = 'none'; }, 360);
+}
+window.addEventListener('resize', () => { if (innerWidth > 768) closeMob(); }, { passive: true });
+</script>
+</body>
+</html>
