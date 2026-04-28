@@ -373,6 +373,16 @@
       font-size: 1.4rem; cursor: pointer; transition: var(--ease); border: none;
     }
     #lightbox-close:hover { background: rgba(255,255,255,.3); }
+    #lightbox-prev, #lightbox-next {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,.18); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--ease); border: none; z-index: 10000;
+    }
+    #lightbox-prev { left: 1.5rem; }
+    #lightbox-next { right: 1.5rem; }
+    #lightbox-prev:hover, #lightbox-next:hover { background: rgba(255,255,255,.3); }
 
     /* ── MARKTGÄRTNEREI ── */
     #mgk { background: var(--white); border-top: 1.5px solid var(--cream-dk); }
@@ -489,6 +499,41 @@
     }
     .form-field textarea { resize: vertical; min-height: 130px; }
 
+    /* ── DSGVO ── */
+    #cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+      background: #0D0D0D; color: var(--cream);
+      padding: 1.25rem clamp(1.25rem,5vw,3rem);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 -4px 24px rgba(0,0,0,.35);
+    }
+    .cookie-text { font-size: .78rem; opacity: .8; line-height: 1.6; max-width: 780px; }
+    .cookie-text a { color: var(--sage); text-decoration: underline; }
+    .cookie-btns { display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; }
+    .form-dsgvo-notice {
+      background: var(--mint); border-radius: var(--r-sm);
+      padding: 1rem 1.25rem; font-size: .78rem;
+      color: var(--muted); line-height: 1.65; margin-bottom: 1rem;
+      border-left: 3px solid var(--sage);
+    }
+    .form-dsgvo-notice strong { color: var(--black); }
+    .form-dsgvo-notice a { color: var(--sage); text-decoration: underline; }
+    .form-field-checkbox { margin-bottom: 1rem; }
+    .checkbox-label {
+      display: flex; align-items: flex-start; gap: .6rem;
+      font-size: .82rem; color: var(--muted); line-height: 1.6; cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] { margin-top: .25rem; flex-shrink: 0; accent-color: var(--black); width: 16px; height: 16px; }
+    .checkbox-label a { color: var(--sage); text-decoration: underline; }
+    .footer-ext-note {
+      font-size: .72rem; opacity: .4; line-height: 1.6;
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-ext-note a { color: inherit; text-decoration: underline; }
+
     /* ── FOOTER ── */
     footer { background: #0D0D0D; color: var(--cream); padding: 2.5rem 0; }
     .footer-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; }
@@ -548,6 +593,7 @@
       .galerie-grid { grid-template-columns: repeat(2, 1fr); gap: 2px; }
       .footer-row { flex-direction: column; align-items: flex-start; }
       .footer-copy { text-align: left; }
+      .btn { white-space: normal; }
     }
     @media (max-width: 480px) {
       .partner-cards { grid-template-columns: 1fr; }
@@ -604,7 +650,7 @@
 
 <!-- HERO -->
 <section id="hero">
-  <img class="hero-img" src="Hero_image.jpg" alt="Dirndln am Feld – Folientunnel im Morgenlicht">
+  <img class="hero-img" src="philipphorak_IAN_DIRNDLN/DSCF3248%20(2).jpg" alt="Dirndln am Feld – Folientunnel im Morgenlicht">
   <div class="hero-overlay"></div>
   <div class="wrap">
     <div class="hero-body">
@@ -613,7 +659,7 @@
       <p class="hero-tag">Bio-Marktgärtnerei · Kirchberg am Wagram · Niederösterreich</p>
       <p class="hero-sub">Wir sind eine Marktgärtnerei mit Haltung, Hand und Herz — direkt vom Feld zu deinem Tisch.</p>
       <div class="hero-ctas">
-        <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-p">Jetzt bestellen ↗</a>
+        <a href="https://dirndlnamfeld.martas.at/kundenbereich.html" target="_blank" rel="noopener" class="btn btn-oc">Jetzt bestellen ↗</a>
         <a href="#erde" class="btn btn-oc">Mehr erfahren</a>
       </div>
     </div>
@@ -631,7 +677,7 @@
     </div>
     <div class="erde-grid">
       <div class="erde-img js-reveal-left">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/es-geht-um-die-Erde-1024.jpg" alt="Es geht um die Erde" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF7930.jpg" alt="Es geht um die Erde" loading="lazy">
       </div>
       <div class="erde-text js-reveal-right">
         <span class="eyebrow">Es geht um die …</span>
@@ -688,7 +734,7 @@
         <span class="terra-rule"></span>
       </div>
       <div class="dirndln-img js-reveal-right">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/dirndlnmehr-1024.jpg" alt="Sarah & Dreamteam" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF8089%20(1).jpg" alt="Sarah & Dreamteam" loading="lazy">
       </div>
     </div>
   </div>
@@ -720,7 +766,7 @@
         </div>
       </div>
       <div class="kunden-photo js-reveal-right">
-        <img src="Kunden.jpg" alt="Unsere Kunden" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF8476.jpg" alt="Unsere Kunden" loading="lazy">
       </div>
     </div>
   </div>
@@ -731,7 +777,7 @@
   <div class="wrap">
     <div class="partner-intro">
       <div class="partner-img js-reveal-left">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Dach-Fach.-Unsere-Netzwerke-1024.jpg" alt="Unsere Netzwerke" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF5848.jpg" alt="Unsere Netzwerke" loading="lazy">
       </div>
       <div class="js-reveal-right">
         <span class="eyebrow">Netzwerk & Partner</span>
@@ -822,7 +868,7 @@
         </div>
       </div>
       <div class="heim-img js-reveal-right">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Heimvorteil.-Kirchberger-1024.jpg" alt="Heimvorteil – Kirchberger" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF8490.jpg" alt="Heimvorteil – Kirchberger" loading="lazy">
       </div>
     </div>
   </div>
@@ -858,7 +904,7 @@
 
     <div class="boden-grid">
       <div class="boden-img js-reveal-left">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/01/4amfeld-1024x768.jpg" alt="Am Feld" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF8353.jpg" alt="Am Feld" loading="lazy">
       </div>
       <div class="boden-text js-reveal-right">
         <h3>Achtung, fertig, Löss! Unser Boden.</h3>
@@ -900,7 +946,7 @@
         </div>
       </div>
       <div class="events-img js-reveal-right">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Events-1024.jpg" alt="Events am Feld" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF7726.jpg" alt="Events am Feld" loading="lazy">
       </div>
     </div>
   </div>
@@ -940,7 +986,7 @@
         <a href="#kontakt" class="btn btn-p" style="margin-top:2rem;">Kontaktieren Sie mich</a>
       </div>
       <div class="firma-img js-reveal-right">
-        <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Firmenangebote-1024.jpg" alt="Firmenangebote" loading="lazy">
+        <img src="philipphorak_IAN_DIRNDLN/DSCF8525.jpg" alt="Firmenangebote" loading="lazy">
       </div>
     </div>
   </div>
@@ -958,30 +1004,30 @@
     </div>
   </div>
   <div class="galerie-grid">
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-1.jpg"  loading="lazy" alt="Galerie 1"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-2.jpg"  loading="lazy" alt="Galerie 2"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-3.jpg"  loading="lazy" alt="Galerie 3"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-4.jpg"  loading="lazy" alt="Galerie 4"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-5.jpg"  loading="lazy" alt="Galerie 5"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-6.jpg"  loading="lazy" alt="Galerie 6"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-7.jpg"  loading="lazy" alt="Galerie 7"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-8.jpg"  loading="lazy" alt="Galerie 8"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-9.jpg"  loading="lazy" alt="Galerie 9"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-10.jpg" loading="lazy" alt="Galerie 10"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-11.jpg" loading="lazy" alt="Galerie 11"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-12.jpg" loading="lazy" alt="Galerie 12"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-13.jpg" loading="lazy" alt="Galerie 13"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-14.jpg" loading="lazy" alt="Galerie 14"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-15.jpg" loading="lazy" alt="Galerie 15"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-16.jpg" loading="lazy" alt="Galerie 16"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-17.jpg" loading="lazy" alt="Galerie 17"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-18.jpg" loading="lazy" alt="Galerie 18"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-19.jpg" loading="lazy" alt="Galerie 19"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-20.jpg" loading="lazy" alt="Galerie 20"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-21.jpg" loading="lazy" alt="Galerie 21"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-22.jpg" loading="lazy" alt="Galerie 22"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-23.jpg" loading="lazy" alt="Galerie 23"></div>
-    <div class="galerie-item"><img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Gallerie-24.jpg" loading="lazy" alt="Galerie 24"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF2332%201.jpg"    loading="lazy" alt="Galerie 1"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF3868%20(1).jpg"  loading="lazy" alt="Galerie 2"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF3891%20(1).jpg"  loading="lazy" alt="Galerie 3"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF3914%20(1).jpg"  loading="lazy" alt="Galerie 4"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5769.jpg"        loading="lazy" alt="Galerie 5"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5796.jpg"        loading="lazy" alt="Galerie 6"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5806.jpg"        loading="lazy" alt="Galerie 7"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5825%202.jpg"    loading="lazy" alt="Galerie 8"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5871.jpg"        loading="lazy" alt="Galerie 9"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5894.jpg"        loading="lazy" alt="Galerie 10"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF5952.jpg"        loading="lazy" alt="Galerie 11"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF6013.jpg"        loading="lazy" alt="Galerie 12"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF6768.jpg"        loading="lazy" alt="Galerie 13"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF6781.jpg"        loading="lazy" alt="Galerie 14"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF7737.jpg"        loading="lazy" alt="Galerie 15"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF7750%20(1).jpg"  loading="lazy" alt="Galerie 16"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF7760.jpg"        loading="lazy" alt="Galerie 17"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF7803%20(1).jpg"  loading="lazy" alt="Galerie 18"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8205.jpg"        loading="lazy" alt="Galerie 19"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8207.jpg"        loading="lazy" alt="Galerie 20"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8244%20(1).jpg"  loading="lazy" alt="Galerie 21"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8372.jpg"        loading="lazy" alt="Galerie 22"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8419%20(1).jpg"  loading="lazy" alt="Galerie 23"></div>
+    <div class="galerie-item"><img src="philipphorak_IAN_DIRNDLN/DSCF8422.jpg"        loading="lazy" alt="Galerie 24"></div>
   </div>
 </section>
 
@@ -1019,7 +1065,7 @@
       <div class="js-reveal-right">
         <div class="mgk-panel">
           <div class="mgk-img">
-            <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/Die-Marktgaertnerei-1024-1024x768.jpg" alt="Die Marktgärtnerei" loading="lazy">
+            <img src="philipphorak_IAN_DIRNDLN/DSCF8474.jpg" alt="Die Marktgärtnerei" loading="lazy">
           </div>
           <div class="mgk-stats">
             <div class="mgk-stat"><strong>1 ha</strong><span>Bio-Fläche</span></div>
@@ -1043,7 +1089,7 @@
     <div class="bestellen-grid">
       <div class="bestell-card js-reveal">
         <div class="bestell-card-img">
-          <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/BestellHierPrivatkunden-1024.jpg" alt="Privatkunden" loading="lazy">
+          <img src="philipphorak_IAN_DIRNDLN/DSCF8452.jpg" alt="Privatkunden" loading="lazy">
         </div>
         <div class="bestell-card-body">
           <h3>Privatkunden</h3>
@@ -1066,7 +1112,7 @@
       </div>
       <div class="bestell-card js-reveal">
         <div class="bestell-card-img">
-          <img src="https://dirndlnamfeld.bio/wp-content/uploads/2026/02/BestelleHierGastronomie-1024.jpg" alt="Gastronomie" loading="lazy">
+          <img src="philipphorak_IAN_DIRNDLN/DSCF3698.jpg" alt="Gastronomie" loading="lazy">
         </div>
         <div class="bestell-card-body">
           <h3>Gastronomie</h3>
@@ -1157,6 +1203,15 @@
             <label for="nachricht">Nachricht *</label>
             <textarea id="nachricht" name="body" required placeholder="Deine Nachricht an uns …"></textarea>
           </div>
+          <div class="form-dsgvo-notice">
+            <p><strong>Datenschutzhinweis (Art. 13 DSGVO):</strong> Verantwortliche: Sarah Schmolmüller, Dirndln am Feld – Sabi GesbR, Obere Hauptstraße 5, 3485 Haitzendorf, <a href="mailto:dirndln@feld.bio">dirndln@feld.bio</a>. Ihre Daten (Name, E-Mail, Telefon, Nachricht) werden ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO. Speicherdauer: bis zur vollständigen Bearbeitung, maximal 3 Jahre. Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung sowie Datenübertragbarkeit (Art. 15–20 DSGVO). Beschwerderecht bei der österreichischen Datenschutzbehörde (DSB), Wickenburggasse 8, 1080 Wien, <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a>. Weitere Infos: <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+          </div>
+          <div class="form-field form-field-checkbox">
+            <label class="checkbox-label">
+              <input type="checkbox" name="datenschutz" required>
+              Ich habe die <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage gemäß Art. 6 Abs. 1 lit. b DSGVO zu. *
+            </label>
+          </div>
           <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;">Nachricht senden</button>
         </form>
       </div>
@@ -1183,13 +1238,25 @@
         Design: <a href="https://texx.co" target="_blank" rel="noopener">TExx IT-Solutions</a>
       </div>
     </div>
+    <p class="footer-ext-note">Diese Website enthält Links zu externen Diensten. Beim Klick auf externe Links gelten die Datenschutzbestimmungen der jeweiligen Anbieter: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Maps</a> · <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">WhatsApp / Meta</a> · <a href="https://privacycenter.instagram.com/policy" target="_blank" rel="noopener">Instagram / Meta</a> · MARTAS Bestellsystem. Die Betreiberin dieser Website ist nicht verantwortlich für die Inhalte oder Datenschutzpraktiken dieser externen Anbieter.</p>
   </div>
 </footer>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;">
+  <p class="cookie-text">Diese Website verwendet technisch notwendige Skripte (GSAP-Animationsbibliothek von jsDelivr, einem EU-ansässigen CDN) zur Darstellung. Es werden <strong>keine Tracking-Cookies</strong> gesetzt und keine Analyse-Tools verwendet. Beim Aufruf externer Links (Google Maps, WhatsApp, Instagram) gelten die Datenschutzbestimmungen der jeweiligen Anbieter.</p>
+  <div class="cookie-btns">
+    <button id="cookie-accept" class="btn btn-oc" style="font-size:.8rem;padding:.6rem 1.4rem;">Verstanden &amp; Akzeptieren</button>
+    <a href="https://dirndlnamfeld.bio/index.php/datenschutz/" target="_blank" rel="noopener" class="btn btn-oc" style="font-size:.8rem;padding:.6rem 1.4rem;">Datenschutzerklärung</a>
+  </div>
+</div>
+
 <!-- LIGHTBOX -->
-<div id="lightbox" onclick="if(event.target===this)closeLightbox()">
+<div id="lightbox">
   <button id="lightbox-close" onclick="closeLightbox()" aria-label="Schließen">✕</button>
+  <button id="lightbox-prev" onclick="navigateLightbox(-1)" aria-label="Vorheriges Bild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg></button>
   <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next" onclick="navigateLightbox(1)" aria-label="Nächstes Bild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="9 18 15 12 9 6"/></svg></button>
 </div>
 
 <!-- SCRIPTS -->
@@ -1345,24 +1412,55 @@
 /* ── Galerie lightbox ── */
 const lightbox    = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
+const galleryImgs = [...document.querySelectorAll('.galerie-item img')];
+let currentIndex  = 0;
 
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = galleryImgs[index].src;
+  lightboxImg.alt = galleryImgs[index].alt;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 function closeLightbox() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
   lightboxImg.src = '';
 }
+function navigateLightbox(dir) {
+  currentIndex = (currentIndex + dir + galleryImgs.length) % galleryImgs.length;
+  lightboxImg.src = galleryImgs[currentIndex].src;
+  lightboxImg.alt = galleryImgs[currentIndex].alt;
+}
 
-document.querySelectorAll('.galerie-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const img = item.querySelector('img');
-    lightboxImg.src = img.src;
-    lightboxImg.alt = img.alt;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
+document.querySelectorAll('.galerie-item').forEach((item, i) => {
+  item.addEventListener('click', () => openLightbox(i));
 });
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowRight') navigateLightbox(1);
+  if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+});
+
+let touchStartX = 0;
+lightbox.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchend',   e => {
+  const delta = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(delta) > 50) navigateLightbox(delta < 0 ? 1 : -1);
+});
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+/* ── Cookie consent ── */
+(function () {
+  const banner = document.getElementById('cookie-banner');
+  if (!localStorage.getItem('daf_consent')) banner.style.display = 'flex';
+  document.getElementById('cookie-accept').addEventListener('click', function () {
+    localStorage.setItem('daf_consent', 'accepted');
+    banner.style.display = 'none';
+  });
+})();
 
 /* ── Mobile menu ── */
 function toggleMob() {
